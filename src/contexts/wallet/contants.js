@@ -1,0 +1,3 @@
+export const CREATE_WALLET = 'CREATE_WALLET'
+export const CREATE_ACCOUNT = 'CREATE_ACCOUNT'
+export const ADD_ACCOUNT = 'ADD_ACCOUNT'

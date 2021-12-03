@@ -1,0 +1,61 @@
+import React, { useState } from 'react'
+import { useContextSelector } from 'use-context-selector'
+
+import { ReactComponent as SubmitArrowIcon } from '../../../../assets/svg/submit-arrow.svg'
+import Web3Service from '../../../../services/web3'
+import { addAccount } from '../../../../contexts/wallet/actions'
+import { WalletContext } from '../../../../contexts/wallet/WalletProvider'
+
+import * as S from './styled'
+
+function ImportWallet() {
+  const [privateKey, setPrivateKey] = useState('')
+  const dispatch = useContextSelector(WalletContext, (s) => s[1])
+  const [error, setError] = useState(false)
+
+  const handlePrivateKeyChange = (e) => {
+    if (error) setError(false)
+
+    setPrivateKey(e.target.value)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const web3 = Web3Service.getInstance()
+
+    try {
+      const account = await web3.eth.accounts.privateKeyToAccount(privateKey)
+
+      addAccount(dispatch, account)
+    } catch (err) {
+      setError(true)
+    }
+  }
+
+  return (
+    <S.ImportContainer as="form" onSubmit={handleSubmit}>
+      <S.ImportTitle className="light">
+        Please inform your private key on the input bellow
+      </S.ImportTitle>
+
+      <S.ImportInputContainer>
+        <S.ImportInput
+          required
+          onChange={handlePrivateKeyChange}
+          value={privateKey}
+        />
+        <S.ImportButton>
+          <SubmitArrowIcon />
+        </S.ImportButton>
+      </S.ImportInputContainer>
+
+      {error && (
+        <S.ImportError className="error">
+          Please inform a valid key
+        </S.ImportError>
+      )}
+    </S.ImportContainer>
+  )
+}
+
+export default ImportWallet

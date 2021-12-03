@@ -1,0 +1,51 @@
+@import "./variables.css";
+
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--dark)
+}
+
+p, a, span, label, input, button {
+  color: var(--light)
+}
+
+button, input {
+  appearance: none;
+  background: transparent;
+  color: var(--primary);
+  outline: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+input {
+  border: solid 3px var(--primary-bd);
+  width: 100%;
+  padding: 0 min(3rem, 3vw);
+  height: min(86px, 12vh);
+  border-radius: 6px;
+}
+
+.light {
+  color: var(--light)
+}
+
+.primary {
+  color: var(--primary)
+}
+
+.error {
+  color: var(--error)
+}
