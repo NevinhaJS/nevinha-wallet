@@ -1,17 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import ChooseWallet from './containers/ChooseWallet'
 import Wallet from './containers/Wallet'
-
-const screensMapper = {
-  chooseWallet: ChooseWallet,
-  wallet: Wallet,
-}
+import Options from './containers/ChooseWallet/components/Options'
+import Backup from './containers/ChooseWallet/components/Backup/Backup'
+import ImportWallet from './containers/ChooseWallet/components/ImportWallet/ImportWallet'
 
 function Router() {
-  const [screen, setScreen] = useState('chooseWallet')
-  const Component = screensMapper[screen]
-
-  return <Component onScreenChange={setScreen} />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ChooseWallet />}>
+          <Route path="/" element={<Options />} />
+          <Route path="/backup" element={<Backup />} />
+          <Route path="/import" element={<ImportWallet />} />
+        </Route>
+        <Route path="/wallet" element={<Wallet />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default Router

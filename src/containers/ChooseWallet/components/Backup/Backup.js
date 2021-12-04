@@ -4,8 +4,9 @@ import { WalletContext } from '../../../../contexts/wallet/WalletProvider'
 import { ChooseBox } from '../../styled'
 import { ReactComponent as Logo } from '../../../../assets/svg/arrow.svg'
 import * as S from './styled'
+import { Link } from 'react-router-dom'
 
-function Backup({ onScreenChange }) {
+function Backup() {
   const createdWallet = useContextSelector(WalletContext, (s) => s[0])
   const privateKey = createdWallet?.accounts[0]?.privateKey
 
@@ -25,10 +26,7 @@ function Backup({ onScreenChange }) {
         </S.BackupKey>
       </ChooseBox>
 
-      <S.BackupButton
-        onClick={() => onScreenChange('wallet')}
-        className="primary"
-      >
+      <S.BackupButton as={Link} to="/wallet" className="primary">
         To my wallet <Logo />
       </S.BackupButton>
     </S.BackupContainer>

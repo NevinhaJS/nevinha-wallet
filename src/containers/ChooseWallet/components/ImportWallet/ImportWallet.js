@@ -5,17 +5,19 @@ import { ReactComponent as SubmitArrowIcon } from '../../../../assets/svg/submit
 import Web3Service from '../../../../services/web3'
 import { createWalletWithAccount } from '../../../../contexts/wallet/actions'
 import { WalletContext } from '../../../../contexts/wallet/WalletProvider'
+import { useNavigate } from 'react-router-dom'
 
 import * as S from './styled'
 
-function ImportWallet({ onScreenChange }) {
+function ImportWallet() {
   const [privateKey, setPrivateKey] = useState('')
   const [wallet, dispatch] = useContextSelector(WalletContext, (s) => s)
   const [error, setError] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (wallet) onScreenChange('wallet')
-  }, [wallet, onScreenChange])
+    if (wallet) navigate('/wallet')
+  }, [wallet, navigate])
 
   const handlePrivateKeyChange = (e) => {
     if (error) setError(false)

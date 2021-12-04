@@ -1,23 +1,10 @@
-import Options from './components/Options'
-import Backup from './components/Backup/Backup'
-
 import * as S from './styled'
-import { useState } from 'react'
-import ImportWallet from './components/ImportWallet/ImportWallet'
+import { Outlet } from 'react-router-dom'
 
-const screenMapper = {
-  options: Options,
-  backup: Backup,
-  importWallet: ImportWallet,
-}
-
-function ChooseWallet({ onScreenChange }) {
-  const [screen, setScreen] = useState('options')
-  const Component = screenMapper[screen]
-
+function ChooseWallet() {
   return (
     <S.ChooseWrapper>
-      <Component onScreenChange={onScreenChange} onOptionClick={setScreen} />
+      <Outlet />
     </S.ChooseWrapper>
   )
 }
