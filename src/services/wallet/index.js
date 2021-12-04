@@ -8,14 +8,14 @@ const walletService = (() => {
     localStorage.setItem('wallet', JSON.stringify(encryptedWallet))
   }
 
-  const unlockWallet = (password) => {
+  const unlockWallet = async (password) => {
     try {
       const web3 = Web3Service.getInstance()
       const encryptedWallet = JSON.parse(getStoredWallet())
 
       return web3.eth.accounts.wallet.decrypt(encryptedWallet, password)
     } catch (err) {
-      return false
+      throw err
     }
   }
 
