@@ -49,6 +49,7 @@ function ImportWallet() {
           required
           onChange={handlePrivateKeyChange}
           value={privateKey}
+          type="password"
         />
         <S.ImportButton>
           <SubmitArrowIcon />
