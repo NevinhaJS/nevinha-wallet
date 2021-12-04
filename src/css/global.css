@@ -14,6 +14,10 @@ body {
   background: var(--dark)
 }
 
+h1,h2,h3,h4 {
+  color: var(--smooth);
+}
+
 p, a, span, label, input, button {
   color: var(--light)
 }
@@ -47,4 +51,8 @@ input, select {
 
 .error {
   color: var(--error)
+}
+
+.txt-center {
+  text-align: center;
 }

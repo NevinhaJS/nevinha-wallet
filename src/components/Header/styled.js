@@ -6,7 +6,7 @@ export const Header = styled.header`
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: min(24px, 3vh) min(44px, 4vw);
+  padding: min(24px, 3vh) min(44px, 5vw);
 
   h1 {
     margin: 0;
@@ -14,11 +14,11 @@ export const Header = styled.header`
 `
 
 export const HeaderLogo = styled.img`
-  width: 37px;
+  width: min(37px, 6vw);
 `
 
 export const HeaderSelectContainer = styled.div`
-  max-width: min(216px, 42vw);
+  max-width: min(216px, 50vw);
   position: relative;
   width: 100%;
 
@@ -32,7 +32,7 @@ export const HeaderSelectContainer = styled.div`
 export const HeaderAvatar = styled(Avatar)`
   border-radius: 50%;
   border: solid 3px var(--primary);
-  width: 56px;
+  width: min(56px, 11vw);
 `
 
 export const HeaderSelect = styled.select`
