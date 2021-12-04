@@ -8,7 +8,7 @@ const AvatarImage = styled.img`
 `
 
 function Avatar({ text, className }) {
-  const { data, error } = useSWR(`http://localhost:5000/?text=${text}`, fetcher)
+  const { data, error } = useSWR(`https://obscure-depths-05498.herokuapp.com/?text=${text}`, fetcher)
 
   if (!data || error) return null
 
