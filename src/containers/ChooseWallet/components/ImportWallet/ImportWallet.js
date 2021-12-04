@@ -16,7 +16,7 @@ function ImportWallet() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (wallet) navigate('/wallet')
+    if (wallet?.accounts) navigate('/wallet')
   }, [wallet, navigate])
 
   const handlePrivateKeyChange = (e) => {

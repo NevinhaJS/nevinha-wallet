@@ -9,15 +9,22 @@ const walletService = (() => {
   }
 
   const unlockWallet = (password) => {
-    const web3 = Web3Service.getInstance()
-    const encryptedWallet = JSON.parse(localStorage.getItem('wallet'))
+    try {
+      const web3 = Web3Service.getInstance()
+      const encryptedWallet = JSON.parse(getStoredWallet())
 
-    web3.eth.accounts.wallet.decrypt(encryptedWallet, password)
+      return web3.eth.accounts.wallet.decrypt(encryptedWallet, password)
+    } catch (err) {
+      return false
+    }
   }
+
+  const getStoredWallet = () => localStorage.getItem('wallet')
 
   return {
     saveWallet,
     unlockWallet,
+    getStoredWallet,
   }
 })()
 

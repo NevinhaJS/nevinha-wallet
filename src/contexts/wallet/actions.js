@@ -1,5 +1,5 @@
 import Web3Service from '../../services/web3'
-import { CREATE_WALLET, ADD_ACCOUNT } from './contants'
+import { CREATE_WALLET, ADD_ACCOUNT, CHANGE_PASSWORD } from './contants'
 
 export const createWallet = (dispatch) => {
   const web3 = Web3Service.getInstance()
@@ -19,6 +19,13 @@ export const createWalletWithAccount = (dispatch, account) => {
     payload: {
       accounts: [account],
     },
+  })
+}
+
+export const createPassword = (dispatch, password) => {
+  dispatch({
+    type: CHANGE_PASSWORD,
+    payload: password,
   })
 }
 

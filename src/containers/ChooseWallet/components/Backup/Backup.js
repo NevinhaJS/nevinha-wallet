@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom'
 function Backup() {
   const createdWallet = useContextSelector(WalletContext, (s) => s[0])
   const privateKey = createdWallet?.accounts[0]?.privateKey
-
   const handlePrivateKeyClick = () => {
     navigator.clipboard.writeText(privateKey)
   }

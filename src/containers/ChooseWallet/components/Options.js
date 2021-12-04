@@ -13,12 +13,12 @@ function Options() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (wallet) navigate('/backup')
+    if (wallet) navigate('/create-password?next=backup')
   }, [wallet, navigate])
 
   const onCreateWalletClick = () => createWallet(dispatch)
 
-  const onImportWalletClick = () => navigate('/import')
+  const onImportWalletClick = () => navigate('/create-password?next=import')
 
   return (
     <S.ChooseContainer>
