@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useContextSelector } from 'use-context-selector'
 
 import { ReactComponent as SubmitArrowIcon } from '../../../../assets/svg/submit-arrow.svg'
@@ -8,10 +8,14 @@ import { WalletContext } from '../../../../contexts/wallet/WalletProvider'
 
 import * as S from './styled'
 
-function ImportWallet() {
+function ImportWallet({ onScreenChange }) {
   const [privateKey, setPrivateKey] = useState('')
-  const dispatch = useContextSelector(WalletContext, (s) => s[1])
+  const [wallet, dispatch] = useContextSelector(WalletContext, (s) => s)
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    if (wallet) onScreenChange('wallet')
+  }, [wallet, onScreenChange])
 
   const handlePrivateKeyChange = (e) => {
     if (error) setError(false)

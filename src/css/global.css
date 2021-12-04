@@ -18,7 +18,7 @@ p, a, span, label, input, button {
   color: var(--light)
 }
 
-button, input {
+button, input, select {
   appearance: none;
   background: transparent;
   color: var(--primary);
@@ -30,11 +30,10 @@ button {
   cursor: pointer;
 }
 
-input {
+input, select {
   border: solid 3px var(--primary-bd);
   width: 100%;
   padding: 0 min(3rem, 3vw);
-  height: min(86px, 12vh);
   border-radius: 6px;
 }
 

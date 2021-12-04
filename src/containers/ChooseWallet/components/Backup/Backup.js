@@ -5,7 +5,7 @@ import { ChooseBox } from '../../styled'
 import { ReactComponent as Logo } from '../../../../assets/svg/arrow.svg'
 import * as S from './styled'
 
-function Backup() {
+function Backup({ onScreenChange }) {
   const createdWallet = useContextSelector(WalletContext, (s) => s[0])
   const privateKey = createdWallet?.accounts[0]?.privateKey
 
@@ -25,7 +25,10 @@ function Backup() {
         </S.BackupKey>
       </ChooseBox>
 
-      <S.BackupButton className="primary">
+      <S.BackupButton
+        onClick={() => onScreenChange('wallet')}
+        className="primary"
+      >
         To my wallet <Logo />
       </S.BackupButton>
     </S.BackupContainer>

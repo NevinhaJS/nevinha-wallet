@@ -18,6 +18,7 @@ export const ImportInput = styled.input`
   font-size: min(32px, 6vw);
   font-style: italic;
   padding-right: min(84px, 20vw);
+  height: min(86px, 12vh);
 `
 
 export const ImportInputContainer = styled.div`
