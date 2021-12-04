@@ -5,6 +5,7 @@ import Layout from '../../infra/Layout'
 import useAuthentication from '../../hooks/useAuthentication'
 
 import * as S from './styled'
+import Balances from './components/Balances'
 
 function Wallet() {
   const wallet = useContextSelector(WalletContext, (s) => s[0])
@@ -22,6 +23,10 @@ function Wallet() {
           <br />
           <span className="primary">{wallet.accounts[0].address}</span>
         </h1>
+
+        <S.WalletBalances>
+          <Balances />
+        </S.WalletBalances>
       </S.WalletHeader>
     </Layout>
   )

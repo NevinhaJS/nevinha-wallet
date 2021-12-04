@@ -8,8 +8,7 @@ import { createWallet } from '../../../contexts/wallet/actions'
 import * as S from '../styled'
 
 function Options() {
-  const dispatch = useContextSelector(WalletContext, (s) => s[1])
-  const wallet = useContextSelector(WalletContext, (s) => s[0])
+  const [wallet, dispatch] = useContextSelector(WalletContext, (s) => s)
   const navigate = useNavigate()
 
   useEffect(() => {

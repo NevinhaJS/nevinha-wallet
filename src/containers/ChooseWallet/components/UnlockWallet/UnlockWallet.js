@@ -30,7 +30,6 @@ function UnlockWallet() {
 
     try {
       const accounts = await walletService.unlockWallet(password)
-
       importWallet(dispatch, {
         password,
         accounts,
