@@ -1,5 +1,3 @@
-import { useContextSelector } from 'use-context-selector'
-import { WalletContext } from '../../contexts/wallet/WalletProvider'
 import Options from './components/Options'
 import Backup from './components/Backup/Backup'
 
