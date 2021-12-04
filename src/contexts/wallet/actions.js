@@ -13,6 +13,15 @@ export const createWallet = (dispatch) => {
   })
 }
 
+export const createWalletWithAccount = (dispatch, account) => {
+  dispatch({
+    type: CREATE_WALLET,
+    payload: {
+      accounts: [account],
+    },
+  })
+}
+
 export const addAccount = (dispatch, account) => {
   dispatch({
     type: ADD_ACCOUNT,

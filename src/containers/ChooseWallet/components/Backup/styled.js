@@ -8,7 +8,7 @@ export const BackupContainer = styled.div`
 `
 
 export const BackupTitle = styled.h3`
-  font-size: min(22px, 6vw);
+  font-size: min(26px, 6vw);
   font-weight: 400;
   color: var(--smooth);
   margin-bottom: min(40px, 8vh);

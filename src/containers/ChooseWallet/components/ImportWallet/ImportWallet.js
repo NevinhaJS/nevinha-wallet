@@ -3,7 +3,7 @@ import { useContextSelector } from 'use-context-selector'
 
 import { ReactComponent as SubmitArrowIcon } from '../../../../assets/svg/submit-arrow.svg'
 import Web3Service from '../../../../services/web3'
-import { addAccount } from '../../../../contexts/wallet/actions'
+import { createWalletWithAccount } from '../../../../contexts/wallet/actions'
 import { WalletContext } from '../../../../contexts/wallet/WalletProvider'
 
 import * as S from './styled'
@@ -30,7 +30,7 @@ function ImportWallet({ onScreenChange }) {
     try {
       const account = await web3.eth.accounts.privateKeyToAccount(privateKey)
 
-      addAccount(dispatch, account)
+      createWalletWithAccount(dispatch, account)
     } catch (err) {
       setError(true)
     }
