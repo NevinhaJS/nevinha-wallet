@@ -9,10 +9,11 @@ export const ItemContainer = styled.div`
   grid-column-gap: min(30px, 6vw);
 
   p {
-    font-size: min(18px, 4vw);
+    font-size: min(14px, 4vw);
     margin: 0;
 
     &:first-child {
+      font-size: min(18px, 5vw);
       margin-bottom: 7px;
     }
   }
