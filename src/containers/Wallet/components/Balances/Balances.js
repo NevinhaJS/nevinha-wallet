@@ -15,7 +15,7 @@ const initialCoins = {
 }
 
 function Balances() {
-  const [coins, setCoins] = useState(initialCoins)
+  const [coins] = useState(initialCoins)
 
   return (
     <S.BalanceBox>
