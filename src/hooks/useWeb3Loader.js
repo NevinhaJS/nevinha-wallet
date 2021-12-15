@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import Web3Service from '../services/web3'
 
 const ethNetwork =
-  'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+  'https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
 
 const useWeb3Loader = () => {
   useEffect(() => {

@@ -1,43 +1,30 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React from 'react'
 import useSWR from 'swr'
-import { useContextSelector } from 'use-context-selector'
-import { WalletContext } from '../../contexts/wallet/WalletProvider'
+import useCoinBalance from '../../hooks/useCoinBalance'
 import fetcher from '../../services/fetcher'
-import Web3Service from '../../services/web3'
 
 import * as S from './styled'
 
-const defaultNetworkAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 const binanceAPI = 'https://api.binance.com/api/v3/ticker/price?symbol='
 
-function CoinBalance({ item: { image, symbol, address } }) {
-  const { data, error } = useSWR(`${binanceAPI}${symbol}USDT`, fetcher)
-  const [balance, setBalance] = useState(null)
-  const wallet = useContextSelector(WalletContext, (s) => s[0])
+function CoinBalance({ onClick, item: { image, symbol, address } }) {
+  const { data, error } = useSWR(`${binanceAPI}${symbol}USDT`, fetcher, {
+    refreshInterval: 3000,
+  })
 
-  //TODO: Create a pooling for it and the price in the future
-  const getDefaultNetworkBalance = useCallback(async () => {
-    const web3 = Web3Service.getInstance()
-    const data = await web3.eth.getBalance(wallet.accounts[0].address)
-    const amount = web3.utils.fromWei(data)
+  const [balance, loading] = useCoinBalance(address)
 
-    setBalance(amount)
-  }, [setBalance, wallet])
-
-  useEffect(() => {
-    if (address === defaultNetworkAddress) getDefaultNetworkBalance()
-  }, [getDefaultNetworkBalance, address])
-
-  const isLoading = balance === null
-  const loadingText = 'Loading...'
   const usdBalance =
     !error && data && (parseFloat(balance) * parseFloat(data.price)).toFixed(2)
+  const loadingText = 'Loading...'
 
   return (
     <S.CoinBalanceItem
       image={image}
-      label={isLoading ? loadingText : `${balance.slice(0, 10)} ${symbol}`}
+      label={loading ? loadingText : `${balance.slice(0, 10)} ${symbol}`}
       description={`$${usdBalance || '-'} USD`}
+      icon={<S.CoinArrowIcon />}
+      onClick={onClick}
     />
   )
 }

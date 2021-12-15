@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import ChooseWallet from './containers/ChooseWallet'
-import Wallet from './containers/Wallet'
+import Balances from './containers/Balances'
 import Options from './containers/ChooseWallet/components/Options'
 import Backup from './containers/ChooseWallet/components/Backup'
 import ImportWallet from './containers/ChooseWallet/components/ImportWallet'
@@ -9,6 +9,7 @@ import CreatePassword from './containers/ChooseWallet/components/CreatePassword'
 import UnlockWallet from './containers/ChooseWallet/components/UnlockWallet'
 import RequireSignedOut from './infra/RequireSignedOut'
 import RequireAuth from './infra/RequireAuth'
+import TransferBalance from './containers/TransferBalance/TransferBalance'
 
 function Router() {
   return (
@@ -29,7 +30,11 @@ function Router() {
         </Route>
 
         <Route path="/wallet" element={<RequireAuth />}>
-          <Route path="/wallet" element={<Wallet />} />
+          <Route exact path="/wallet" element={<Balances />} />
+          <Route
+            path="/wallet/transfer/:symbol"
+            element={<TransferBalance />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

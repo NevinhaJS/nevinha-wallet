@@ -10,6 +10,7 @@ export const Header = styled.header`
 
   h1 {
     margin: 0;
+    cursor: pointer;
   }
 `
 

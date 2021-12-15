@@ -14,8 +14,3 @@ export const WalletHeader = styled.header`
     margin-top: 4px;
   }
 `
-
-export const WalletBalances = styled.article`
-  max-width: min(431px, 80vw);
-  margin: 0 auto;
-`

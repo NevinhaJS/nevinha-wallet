@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from '../../assets/svg/logo.svg'
 import { ReactComponent as ArrowIcon } from '../../assets/svg/select-arrow.svg'
+import { Link } from 'react-router-dom'
 
 import * as S from './styled'
 
@@ -8,7 +9,9 @@ function Header({ address }) {
   return (
     <S.Header>
       <h1>
-        <S.HeaderLogo src={logo} alt="nevinha wallet logo" />
+        <Link to="/wallet">
+          <S.HeaderLogo src={logo} alt="nevinha wallet logo" />
+        </Link>
       </h1>
 
       <S.HeaderSelectContainer>
