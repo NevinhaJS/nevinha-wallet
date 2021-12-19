@@ -1,22 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import * as S from './styled'
-
-import ethImage from '../../../../assets/svg/etherium-logo.svg'
-import CoinBalance from '../../../../components/CoinBalance'
 import { useNavigate } from 'react-router-dom'
 
-const initialCoins = {
-  ETH: {
-    name: 'Ethereum',
-    image: ethImage,
-    symbol: 'ETH',
-    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  },
-}
+import CoinBalance from '../../../../components/CoinBalance'
+import { initialCoins } from '../../../../services/tokens/contants'
+import { ReactComponent as ArrowIcon } from '../../../../assets/svg/submit-arrow.svg'
 
 function Balances() {
-  const [coins] = useState(initialCoins)
   const navigate = useNavigate()
 
   const onCoinClick = () =>
@@ -24,7 +15,11 @@ function Balances() {
 
   return (
     <S.BalanceBox>
-      <CoinBalance onClick={onCoinClick} item={coins.ETH} />
+      <CoinBalance
+        onClick={onCoinClick}
+        icon={<ArrowIcon />}
+        item={initialCoins.ETH}
+      />
     </S.BalanceBox>
   )
 }

@@ -57,3 +57,12 @@ input, select {
 .txt-center {
   text-align: center;
 }
+
+.wallet-container {
+  max-width: min(431px, 80vw);
+  margin: 0 auto;
+  margin-top: min(4rem, 5vh);
+  background: #141414;
+  max-height: min(390px, 48vh);
+  overflow-y: auto;
+}

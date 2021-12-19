@@ -8,18 +8,19 @@ export default function Item({
   label,
   description,
   image,
+  title,
   icon,
 }) {
   return (
-    <S.ItemContainer onClick={onClick} className={className}>
-      <img src={image} alt={label} />
+    <S.ItemContainer title={title} onClick={onClick} className={className}>
+      {image}
 
       <div>
         <p className="primary">{label}</p>
         <p>{description}</p>
       </div>
 
-      {icon}
+      <S.ItemIcon>{icon}</S.ItemIcon>
     </S.ItemContainer>
   )
 }
