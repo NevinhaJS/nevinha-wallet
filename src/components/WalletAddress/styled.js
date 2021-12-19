@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const WalletHeader = styled.header`
-  margin-top: 10vh;
+  margin-top: min(4rem, 5vh);
 
   h1 {
     font-weight: 400;
