@@ -8,6 +8,10 @@ export const ItemContainer = styled.div`
   align-items: center;
   grid-column-gap: min(30px, 6vw);
 
+  > img:fist-child {
+    width: 100%;
+  }
+
   p {
     font-size: min(14px, 4vw);
     margin: 0;
