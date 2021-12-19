@@ -20,13 +20,15 @@ const useCoinBalance = (address) => {
     }
   }, [setBalance, wallet, balance])
 
-  const { startPolling } = usePooling(getDefaultNetworkBalance, 10000000)
+  const { startPolling } = usePooling(getDefaultNetworkBalance, 6000)
 
   useEffect(() => {
     if (address === defaultNetworkAddress) {
       startPolling()
     }
-  }, [])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
 
   const isLoading = balance === null
 

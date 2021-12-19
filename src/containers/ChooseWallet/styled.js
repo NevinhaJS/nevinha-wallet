@@ -3,9 +3,13 @@ import styled from 'styled-components'
 export const ChooseWrapper = styled.section`
   width: 100%;
   display: flex;
-  height: 100vh;
+  height: 91vh;
   align-items: center;
   justify-content: center;
+
+  @media only screen and (max-width: 768px) {
+    height: 100vh;
+  }
 `
 export const ChooseContainer = styled.article`
   width: 100%;

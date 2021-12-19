@@ -32,7 +32,7 @@ function TransferBalance() {
   let { symbol } = useParams()
 
   //TODO: We need to change the endpoint when another networks are added
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     `https://api.covalenthq.com/v1/1/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`,
     (...args) => fetcher(...args).then(({ data }) => data)
   )

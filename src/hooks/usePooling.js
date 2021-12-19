@@ -15,7 +15,7 @@ const usePolling = (fn, timing = 5000) => {
     clearInterval(pollingRef.current)
   }, [])
 
-  useEffect(() => cancelPolling, [])
+  useEffect(() => cancelPolling, [cancelPolling, startPolling])
 
   return { startPolling, cancelPolling }
 }
