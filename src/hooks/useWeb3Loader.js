@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
+import { NETWORK_LINK } from '../services/fetcher/constants'
 import Web3Service from '../services/web3'
 
-const ethNetwork =
-  'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+const ethNetwork = NETWORK_LINK
 
 const useWeb3Loader = () => {
   useEffect(() => {

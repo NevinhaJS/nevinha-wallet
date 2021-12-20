@@ -7,7 +7,7 @@ import usePooling from '../hooks/usePooling'
 const defaultNetworkAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 
 const useCoinBalance = (address) => {
-  const [balance, setBalance] = useState(null)
+  const [balance, setBalance] = useState('0')
   const wallet = useContextSelector(WalletContext, (s) => s[0])
 
   const getDefaultNetworkBalance = useCallback(async () => {

@@ -11,7 +11,10 @@ import Transfers from './components/Transfers'
 import { useContextSelector } from 'use-context-selector'
 import { WalletContext } from '../../contexts/wallet/WalletProvider'
 import useSWR from 'swr'
-import { COVALENT_API_KEY } from '../../services/fetcher/constants'
+import {
+  COVALENT_API_KEY,
+  COVALENT_NETWORK_ID,
+} from '../../services/fetcher/constants'
 import fetcher from '../../services/fetcher'
 import { useParams } from 'react-router-dom'
 
@@ -33,7 +36,7 @@ function TransferBalance() {
 
   //TODO: We need to change the endpoint when another networks are added
   const { data } = useSWR(
-    `https://api.covalenthq.com/v1/1/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`,
+    `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`,
     (...args) => fetcher(...args).then(({ data }) => data)
   )
 

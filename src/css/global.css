@@ -63,6 +63,6 @@ input, select {
   margin: 0 auto;
   margin-top: min(4rem, 5vh);
   background: #141414;
-  max-height: min(390px, 48vh);
+  max-height: min(400px, 48vh);
   overflow-y: auto;
 }

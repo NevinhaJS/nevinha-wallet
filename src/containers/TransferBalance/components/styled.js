@@ -19,4 +19,10 @@ export const TransferItem = styled(Item)`
   grid-column-gap: min(15px, 6vw);
   cursor: pointer;
   border-bottom: solid 1px var(--primary-bd);
+  background: transparent;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background: var(--dark);
+  }
 `
