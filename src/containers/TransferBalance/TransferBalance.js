@@ -16,7 +16,7 @@ import {
   COVALENT_NETWORK_ID,
 } from '../../services/fetcher/constants'
 import fetcher from '../../services/fetcher'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const TransferLink = ({ symbol }) => {
   return (
@@ -32,6 +32,7 @@ const TransferLink = ({ symbol }) => {
 function TransferBalance() {
   const { saveSession } = useAuthentication()
   const { accounts } = useContextSelector(WalletContext, (s) => s[0])
+  const navigate = useNavigate()
   let { symbol } = useParams()
 
   //TODO: We need to change the endpoint when another networks are added
@@ -39,6 +40,8 @@ function TransferBalance() {
     `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`,
     (...args) => fetcher(...args).then(({ data }) => data)
   )
+
+  const handleBalanceClick = () => navigate(`/wallet/transfer/${symbol}/form`)
 
   useEffect(() => {
     saveSession()
@@ -49,7 +52,11 @@ function TransferBalance() {
       <WalletAddress />
 
       <Box className="wallet-container">
-        <CoinBalance item={initialCoins.ETH} icon={<TransferLink />} />
+        <CoinBalance
+          onClick={handleBalanceClick}
+          item={initialCoins.ETH}
+          icon={<TransferLink />}
+        />
 
         <Transfers items={data?.items} symbol={symbol} />
       </Box>

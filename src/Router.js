@@ -10,6 +10,7 @@ import UnlockWallet from './containers/ChooseWallet/components/UnlockWallet'
 import RequireSignedOut from './infra/RequireSignedOut'
 import RequireAuth from './infra/RequireAuth'
 import TransferBalance from './containers/TransferBalance/TransferBalance'
+import TransferForm from './containers/TransferForm'
 
 function Router() {
   return (
@@ -32,8 +33,13 @@ function Router() {
         <Route path="/wallet" element={<RequireAuth />}>
           <Route exact path="/wallet" element={<Balances />} />
           <Route
+            exact
             path="/wallet/transfer/:symbol"
             element={<TransferBalance />}
+          />
+          <Route
+            path="/wallet/transfer/:symbol/form"
+            element={<TransferForm />}
           />
         </Route>
       </Routes>

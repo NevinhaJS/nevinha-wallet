@@ -18,6 +18,7 @@ const getInfo = (item, address) => {
   )}...${targetAddress.slice(-4)}`
 }
 
+// TODO: Add a loading state for the requests
 function Transfers({ items, symbol }) {
   const { accounts } = useContextSelector(WalletContext, (s) => s[0])
   const address = accounts[0].address.toLowerCase()
