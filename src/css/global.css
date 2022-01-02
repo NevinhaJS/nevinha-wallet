@@ -33,6 +33,9 @@ button, input, select {
 button {
   border: none;
   cursor: pointer;
+  font-size: min(26px, 5.5vw);
+  text-align: center;
+  width: 100%;
 }
 
 input, select {
@@ -56,6 +59,15 @@ input, select {
 
 .txt-center {
   text-align: center;
+}
+
+.error {
+  color: var(--error);
+}
+
+.input-error {
+  margin-top: -20px;
+  margin-bottom: 1.5rem;
 }
 
 .wallet-container {

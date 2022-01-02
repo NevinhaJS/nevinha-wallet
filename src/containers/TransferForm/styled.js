@@ -20,3 +20,25 @@ export const TransferFormLabel = styled.label`
 export const TransferFormInput = styled(Input)`
   margin-bottom: 2rem;
 `
+
+export const FeesBox = styled(Box)`
+  padding: 0.5rem 0 2rem;
+
+  div:first-child {
+    border: none;
+  }
+
+  > p {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 min(30px, 6vw);
+    margin-bottom: 0;
+  }
+
+  > p,
+  > p span {
+    font-size: 18px;
+  }
+`

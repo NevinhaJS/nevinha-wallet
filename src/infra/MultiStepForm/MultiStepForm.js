@@ -1,22 +1,34 @@
-import React from 'react'
-import { useMachine } from '@xstate/react'
+import React, { createContext } from 'react'
 import { createLazyMachine } from './utils'
+import { useInterpret, useSelector } from '@xstate/react'
+
+export const MultiStepContext = createContext({})
+
+const stateSelector = (state) => {
+  return [state.value, state.context, state.done]
+}
 
 function MultiStepForm({ onSubmit, definition, forms }) {
-  const [state, send] = useMachine(() => createLazyMachine(definition))
+  const machine = () => createLazyMachine(definition)
+  const authService = useInterpret(machine)
+  const [value, context, isDone] = useSelector(authService, stateSelector)
 
-  const Component = forms[state.value]
+  const { send } = authService
+  const Component = forms[value]
 
   const handleFormSubmit = (data) => {
-    if (state.done)
-      return onSubmit({ ...state.context.form, [state.value]: data })
+    if (isDone) return onSubmit({ ...context.form, [value]: data })
 
-    send('next', { data: { key: state.value, value: data } })
+    send('next', { data: { key: value, value: data } })
   }
 
   if (!Component) return null
 
-  return <Component onSubmit={handleFormSubmit} />
+  return (
+    <MultiStepContext.Provider value={{ authService }}>
+      <Component onSubmit={handleFormSubmit} />
+    </MultiStepContext.Provider>
+  )
 }
 
 export default MultiStepForm
