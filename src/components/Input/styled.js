@@ -7,4 +7,8 @@ export const InputComponent = styled.input`
   border-radius: 0;
   font-size: min(26px, 6vw);
   padding-bottom: 10px;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `

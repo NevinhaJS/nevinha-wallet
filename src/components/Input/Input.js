@@ -5,6 +5,7 @@ import { InputComponent } from './styled'
 
 function Input({
   id,
+  disabled,
   register,
   name,
   required,
@@ -18,6 +19,7 @@ function Input({
   return (
     <>
       <InputComponent
+        disabled={disabled}
         value={value}
         className={className}
         id={id}
