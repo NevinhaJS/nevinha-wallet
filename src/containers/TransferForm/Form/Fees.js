@@ -1,15 +1,18 @@
+import React, { useContext, useEffect } from 'react'
 import { useActor } from '@xstate/react'
-import React, { useContext, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useContextSelector } from 'use-context-selector'
+import BigNumber from 'bignumber.js'
+
 import CoinBalance from '../../../components/CoinBalance'
 import { MultiStepContext } from '../../../infra/MultiStepForm/MultiStepForm'
 import { initialCoins } from '../../../services/tokens/contants'
 import Web3Service from '../../../services/web3'
-import BigNumber from 'bignumber.js'
-
-import { FeesBox, TransferFormInput, TransferFormLabel } from '../styled'
-import { useContextSelector } from 'use-context-selector'
 import { WalletContext } from '../../../contexts/wallet/WalletProvider'
+import Estimation from './components/Estimation'
+import FeesFields from './components/FeesFields'
+
+import { FeedbackText, FeesBox } from '../styled'
 
 const getTransactionData = async (stateMachine, account) => {
   const web3 = Web3Service.getInstance()
@@ -43,9 +46,11 @@ function Fees({ onSubmit }) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     setValue,
   } = useForm()
+  const fee = watch('fee')
 
   useEffect(() => {
     ;(async () => {
@@ -63,7 +68,7 @@ function Fees({ onSubmit }) {
 
       setValue('fee', fee)
     })()
-  }, [wallet, state])
+  }, [wallet, state, setValue])
 
   const onSendTransaction = async () => {
     const account = wallet.accounts[0]
@@ -105,7 +110,7 @@ function Fees({ onSubmit }) {
         total: Math.abs(fee) + Math.abs(amount),
       })
 
-      onSubmit({ fee, amount })
+      onSubmit({ fee })
     } catch (e) {
       console.log('Deu ruim')
       console.log(e)
@@ -121,40 +126,22 @@ function Fees({ onSubmit }) {
           <span className="light">To: </span>
           {state.context.form?.INFO?.address}
         </p>
+
         <p className="primary">
           <span className="light">Amount: </span>
           {state.context.form?.INFO?.amount}
         </p>
+
+        {isSubmitting && (
+          <Estimation fee={fee} amount={state.context.form?.INFO?.amount} />
+        )}
       </FeesBox>
 
-      <TransferFormLabel htmlFor="fee" className="light">
-        Estimated fee
-      </TransferFormLabel>
-      <TransferFormInput
-        id="fee"
-        type="text"
-        placeholder="0.0001 ETH"
-        name="fee"
-        required={'fee is required'}
-        register={register}
-        errors={errors}
-        disabled
-      />
-      {/* 
-      <TransferFormLabel htmlFor="maxFee" className="light">
-        Max fee
-      </TransferFormLabel>
-      <TransferFormInput
-        id="maxFee"
-        type="text"
-        placeholder="0 ETH"
-        name="maxFee"
-        required={'max fee is required'}
-        register={register}
-        errors={errors}
-      /> */}
-
-      <button>{isSubmitting ? 'Sending...' : 'Confirm'}</button>
+      {isSubmitting ? (
+        <FeedbackText className="primary">Sending transaction...</FeedbackText>
+      ) : (
+        <FeesFields errors={errors} register={register} />
+      )}
     </form>
   )
 }
