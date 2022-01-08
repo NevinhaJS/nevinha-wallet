@@ -1,24 +1,124 @@
+import React, { useContext, useEffect } from 'react'
 import { useActor } from '@xstate/react'
-import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import Box from '../../../components/Box'
+import { useContextSelector } from 'use-context-selector'
+import BigNumber from 'bignumber.js'
+
 import CoinBalance from '../../../components/CoinBalance'
 import { MultiStepContext } from '../../../infra/MultiStepForm/MultiStepForm'
 import { initialCoins } from '../../../services/tokens/contants'
+import Web3Service from '../../../services/web3'
+import { WalletContext } from '../../../contexts/wallet/WalletProvider'
+import Estimation from './components/Estimation'
+import FeesFields from './components/FeesFields'
 
-import { FeesBox, TransferFormInput, TransferFormLabel } from '../styled'
+import { FeedbackText, FeesBox } from '../styled'
+
+const getTransactionData = async (stateMachine, account) => {
+  const web3 = Web3Service.getInstance()
+  const txCount = await web3.eth.getTransactionCount(account.address, 'latest')
+  const { amount, address } = stateMachine.context.form?.INFO
+
+  return {
+    to: address,
+    nonce: web3.utils.toHex(txCount),
+    value: web3.utils.toHex(web3.utils.toWei(amount, 'ether')),
+  }
+}
+
+const getTransactionGasInfo = async (stateMachine, wallet) => {
+  const web3 = Web3Service.getInstance()
+  const account = wallet.accounts[0]
+  const transactionData = await getTransactionData(stateMachine, account)
+  const estimatedGas = await web3.eth.estimateGas(transactionData)
+  const gasPrice = await web3.eth.getGasPrice()
+
+  return {
+    estimatedGas,
+    gasPrice,
+  }
+}
 
 function Fees({ onSubmit }) {
+  const wallet = useContextSelector(WalletContext, (s) => s[0])
+  const multiStepContext = useContext(MultiStepContext)
+  const [state] = useActor(multiStepContext.authService)
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    watch,
+    formState: { errors, isSubmitting },
+    setValue,
   } = useForm()
-  const multiStepContext = useContext(MultiStepContext)
-  const [state] = useActor(multiStepContext.authService)
+  const fee = watch('fee')
+
+  useEffect(() => {
+    ;(async () => {
+      const web3 = Web3Service.getInstance()
+      const { estimatedGas, gasPrice } = await getTransactionGasInfo(
+        state,
+        wallet
+      )
+
+      const bigGasPrice = BigNumber(estimatedGas)
+      const fee = web3.utils.fromWei(
+        bigGasPrice.multipliedBy(gasPrice).toString(),
+        'ether'
+      )
+
+      setValue('fee', fee)
+    })()
+  }, [wallet, state, setValue])
+
+  const onSendTransaction = async () => {
+    const account = wallet.accounts[0]
+    const web3 = Web3Service.getInstance()
+    const gasLimit = await web3.eth.getBlock('latest').gasLimit
+    const { amount } = state.context.form?.INFO
+    const transactionData = await getTransactionData(state, account)
+    const { estimatedGas, gasPrice } = await getTransactionGasInfo(
+      state,
+      wallet
+    )
+
+    const signedTx = await web3.eth.accounts.signTransaction(
+      {
+        ...transactionData,
+        gasLimit: web3.utils.toHex(gasLimit),
+        gasPrice: web3.utils.toHex(gasPrice),
+        gas: web3.utils.toHex(estimatedGas),
+      },
+      account.privateKey
+    )
+
+    try {
+      console.log('sending...')
+
+      await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+
+      const bigGasPrice = BigNumber(estimatedGas)
+      const fee = web3.utils.fromWei(
+        bigGasPrice.multipliedBy(gasPrice).toString(),
+        'ether'
+      )
+
+      console.log('Transaction sent: ')
+      console.table({
+        fee,
+        amount,
+        gasPrice,
+        total: Math.abs(fee) + Math.abs(amount),
+      })
+
+      onSubmit({ fee })
+    } catch (e) {
+      console.log('Deu ruim')
+      console.log(e)
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSendTransaction)}>
       <FeesBox className="wallet-container">
         <CoinBalance item={initialCoins.ETH} />
 
@@ -26,39 +126,22 @@ function Fees({ onSubmit }) {
           <span className="light">To: </span>
           {state.context.form?.INFO?.address}
         </p>
+
         <p className="primary">
           <span className="light">Amount: </span>
           {state.context.form?.INFO?.amount}
         </p>
+
+        {isSubmitting && (
+          <Estimation fee={fee} amount={state.context.form?.INFO?.amount} />
+        )}
       </FeesBox>
 
-      <TransferFormLabel htmlFor="estimated-fee" className="light">
-        Estimated fee
-      </TransferFormLabel>
-      <TransferFormInput
-        id="estimated-fee"
-        type="number"
-        placeholder="0.0001 ETH"
-        name="estimated-fee"
-        required={'estimated-fee is required'}
-        register={register}
-        errors={errors}
-      />
-
-      <TransferFormLabel htmlFor="maxFee" className="light">
-        Max fee
-      </TransferFormLabel>
-      <TransferFormInput
-        id="maxFee"
-        type="text"
-        placeholder="0 ETH"
-        name="maxFee"
-        required={'max fee is required'}
-        register={register}
-        errors={errors}
-      />
-
-      <button>Confirm</button>
+      {isSubmitting ? (
+        <FeedbackText className="primary">Sending transaction...</FeedbackText>
+      ) : (
+        <FeesFields errors={errors} register={register} />
+      )}
     </form>
   )
 }

@@ -11,6 +11,14 @@ export const stepsDefinition = {
       },
     },
     FEES: {
+      on: {
+        next: {
+          target: 'SUCCESS',
+          actions: ['update'],
+        },
+      },
+    },
+    SUCCESS: {
       type: 'final',
     },
   },

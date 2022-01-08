@@ -8,10 +8,12 @@ import { stepsDefinition } from './const'
 import { TransferFormContainer } from './styled'
 import Info from './Form/Info'
 import Fees from './Form/Fees'
+import Success from './Form/Success'
 
 const forms = {
   INFO: Info,
   FEES: Fees,
+  SUCCESS: Success,
 }
 
 function TransferForm() {

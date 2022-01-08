@@ -42,3 +42,47 @@ export const FeesBox = styled(Box)`
     font-size: 18px;
   }
 `
+
+export const FeedbackText = styled.p`
+  font-size: min(${({ size }) => size || 23}px, 3vw);
+  text-align: center;
+  margin-bottom: 12px;
+  text-decoration: ${({ as, noLine }) =>
+    noLine || as !== 'a' ? 'none' : 'underline'};
+`
+
+export const SuccessContainer = styled.div`
+  height: 64vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+`
+
+export const SuccessBlock = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+
+  && > div {
+    margin-bottom: 0;
+  }
+`
+
+export const CircleBox = styled(Box)`
+  width: min(17vw, 144px);
+  height: min(17vw, 144px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: #141414;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+  }
+`
+
+export const ToWallet = styled(FeedbackText)`
+  margin-top: 48px;
+`
