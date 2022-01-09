@@ -6,13 +6,16 @@ import BigNumber from 'bignumber.js'
 
 import CoinBalance from '../../../components/CoinBalance'
 import { MultiStepContext } from '../../../infra/MultiStepForm/MultiStepForm'
-import { initialCoins } from '../../../services/tokens/contants'
 import Web3Service from '../../../services/web3'
 import { WalletContext } from '../../../contexts/wallet/WalletProvider'
 import Estimation from './components/Estimation'
 import FeesFields from './components/FeesFields'
 
 import { FeedbackText, FeesBox } from '../styled'
+import { initialCoins } from '../../../services/fetcher/constants'
+import { useParams } from 'react-router-dom'
+import TokensService from '../../../services/tokens'
+import { defaultNetworkAddress } from '../../../services/tokens/contants'
 
 const getTransactionData = async (stateMachine, account) => {
   const web3 = Web3Service.getInstance()
@@ -51,6 +54,8 @@ function Fees({ onSubmit }) {
     setValue,
   } = useForm()
   const fee = watch('fee')
+  const { symbol } = useParams()
+  const isMainNet = initialCoins[symbol].address === defaultNetworkAddress
 
   useEffect(() => {
     ;(async () => {
@@ -73,6 +78,12 @@ function Fees({ onSubmit }) {
   const onSendTransaction = async () => {
     const account = wallet.accounts[0]
     const web3 = Web3Service.getInstance()
+
+    if (!isMainNet) {
+      alert('Current we just support mainnet transfers!')
+      return
+    }
+
     const gasLimit = await web3.eth.getBlock('latest').gasLimit
     const { amount } = state.context.form?.INFO
     const transactionData = await getTransactionData(state, account)
@@ -120,7 +131,7 @@ function Fees({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit(onSendTransaction)}>
       <FeesBox className="wallet-container">
-        <CoinBalance item={initialCoins.ETH} />
+        <CoinBalance item={TokensService.getToken(symbol)} />
 
         <p className="primary">
           <span className="light">To: </span>

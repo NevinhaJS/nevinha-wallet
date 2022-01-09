@@ -4,7 +4,6 @@ import useAuthentication from '../../hooks/useAuthentication'
 import WalletAddress from '../../components/WalletAddress'
 import Box from '../../components/Box'
 import CoinBalance from '../../components/CoinBalance'
-import { initialCoins } from '../../services/tokens/contants'
 import { ReactComponent as ArrowIcon } from '../../assets/svg/submit-arrow.svg'
 import * as S from './styled'
 import Transfers from './components/Transfers'
@@ -14,9 +13,14 @@ import useSWR from 'swr'
 import {
   COVALENT_API_KEY,
   COVALENT_NETWORK_ID,
+  initialCoins,
 } from '../../services/fetcher/constants'
 import fetcher from '../../services/fetcher'
 import { useNavigate, useParams } from 'react-router-dom'
+import {
+  defaultNetworkAddress,
+  ERC20_ABI,
+} from '../../services/tokens/contants'
 
 const TransferLink = ({ symbol }) => {
   return (
@@ -27,17 +31,29 @@ const TransferLink = ({ symbol }) => {
   )
 }
 
+const getTransfersEndpoint = ({ isMainNet, accounts, symbol }) => {
+  if (isMainNet)
+    return `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`
+
+  return `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transfers_v2/?contract-address=${initialCoins[symbol].address}&key=${COVALENT_API_KEY}`
+}
+
 // TODO: The provider of the transfers endpoint (current convalent) needs to be refactored
 // to use a proxy or facet pattern, so we can use the same interface for multiple providers
 function TransferBalance() {
   const { saveSession } = useAuthentication()
   const { accounts } = useContextSelector(WalletContext, (s) => s[0])
   const navigate = useNavigate()
-  let { symbol } = useParams()
+  const { symbol } = useParams()
+
+  const isMainNet = initialCoins[symbol].address === defaultNetworkAddress
+  const item = isMainNet
+    ? initialCoins[symbol]
+    : { ...initialCoins[symbol], abi: ERC20_ABI }
 
   //TODO: We need to change the endpoint when another networks are added
   const { data } = useSWR(
-    `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`,
+    getTransfersEndpoint({ isMainNet, accounts, symbol }),
     (...args) => fetcher(...args).then(({ data }) => data)
   )
 
@@ -54,11 +70,11 @@ function TransferBalance() {
       <Box className="wallet-container">
         <CoinBalance
           onClick={handleBalanceClick}
-          item={initialCoins.ETH}
+          item={item}
           icon={<TransferLink />}
         />
 
-        <Transfers items={data?.items} symbol={symbol} />
+        <Transfers isMainNet={isMainNet} items={data?.items} symbol={symbol} />
       </Box>
     </Layout>
   )

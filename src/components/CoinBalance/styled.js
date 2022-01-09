@@ -18,4 +18,8 @@ export const CoinBalanceItem = styled(Item)`
       stroke-width: 6px;
     }
   }
+
+  img {
+    width: 100%;
+  }
 `

@@ -1,8 +1,9 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 import Box from '../../../components/Box'
 import CoinBalance from '../../../components/CoinBalance'
-import { initialCoins } from '../../../services/tokens/contants'
+import TokensService from '../../../services/tokens'
 
 import { TransferFormInput, TransferFormLabel } from '../styled'
 
@@ -12,11 +13,12 @@ function Info({ onSubmit }) {
     handleSubmit,
     formState: { errors },
   } = useForm()
+  const { symbol } = useParams()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box className="wallet-container">
-        <CoinBalance item={initialCoins.ETH} />
+        <CoinBalance item={TokensService.getToken(symbol)} />
       </Box>
 
       <TransferFormLabel htmlFor="address" className="light">
@@ -38,7 +40,7 @@ function Info({ onSubmit }) {
       <TransferFormInput
         id="amount"
         type="text"
-        placeholder="0 ETH"
+        placeholder={`0 ${symbol}`}
         name="amount"
         required={'Amount is required'}
         register={register}

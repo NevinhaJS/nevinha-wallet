@@ -1,25 +1,29 @@
 import React from 'react'
-
-import * as S from './styled'
 import { useNavigate } from 'react-router-dom'
 
 import CoinBalance from '../../../../components/CoinBalance'
-import { initialCoins } from '../../../../services/tokens/contants'
 import { ReactComponent as ArrowIcon } from '../../../../assets/svg/submit-arrow.svg'
+
+import * as S from './styled'
+import { getTokensABI } from './utils'
+
+const coins = getTokensABI()
 
 function Balances() {
   const navigate = useNavigate()
 
-  const onCoinClick = () =>
-    navigate(`/wallet/transfer/${initialCoins.ETH.symbol}`)
+  const onCoinClick = (symbol) => () => navigate(`/wallet/transfer/${symbol}`)
 
   return (
     <S.BalanceBox>
-      <CoinBalance
-        onClick={onCoinClick}
-        icon={<ArrowIcon />}
-        item={initialCoins.ETH}
-      />
+      {coins.map((coin) => (
+        <CoinBalance
+          key={coin.symbol}
+          onClick={onCoinClick(coin.symbol)}
+          icon={<ArrowIcon />}
+          item={coin}
+        />
+      ))}
     </S.BalanceBox>
   )
 }

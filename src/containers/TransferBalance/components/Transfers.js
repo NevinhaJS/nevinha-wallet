@@ -19,7 +19,7 @@ const getInfo = (item, address) => {
 }
 
 // TODO: Add a loading state for the requests
-function Transfers({ items, symbol }) {
+function Transfers({ items, symbol, isMainNet }) {
   const { accounts } = useContextSelector(WalletContext, (s) => s[0])
   const address = accounts[0].address.toLowerCase()
   const web3 = Web3Service.getInstance()
@@ -30,28 +30,30 @@ function Transfers({ items, symbol }) {
     window.open('https://etherscan.io/tx/' + txHash, '_blank')
   }
 
+  const filteredItems = isMainNet
+    ? items.filter((item) => item.value_quote !== 0)
+    : items.filter((item) => item.transfers.length)
+
   return (
     <S.TransferBoxOverflow>
-      {items
-        .filter((item) => item.value_quote !== 0) // Find a way to discover the transfer type, eg if its a token transfer or a eth transaction
-        .map((item) => (
-          <S.TransferItem
-            key={item.tx_hash}
-            image={
-              item.from_address === address ? (
-                <SendTransfer />
-              ) : (
-                <ReceiveTransfer />
-              )
-            }
-            onClick={handleTransferClick(item.tx_hash)}
-            label={`${web3.utils
-              .fromWei(item.value, 'ether')
-              .slice(0, 11)} ${symbol}`}
-            title="view transaction"
-            description={getInfo(item, address)}
-          />
-        ))}
+      {filteredItems.map((item) => (
+        <S.TransferItem
+          key={item.tx_hash}
+          image={
+            item.from_address === address ? (
+              <SendTransfer />
+            ) : (
+              <ReceiveTransfer />
+            )
+          }
+          onClick={handleTransferClick(item.tx_hash)}
+          label={`${web3.utils
+            .fromWei(isMainNet ? item.value : item.transfers[0].delta, 'ether')
+            .slice(0, 11)} ${symbol}`}
+          title="view transaction"
+          description={getInfo(item, address)}
+        />
+      ))}
     </S.TransferBoxOverflow>
   )
 }
