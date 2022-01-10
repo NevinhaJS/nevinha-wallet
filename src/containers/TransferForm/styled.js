@@ -47,8 +47,8 @@ export const FeedbackText = styled.p`
   font-size: min(${({ size }) => size || 23}px, 3vw);
   text-align: center;
   margin-bottom: 12px;
-  text-decoration: ${({ as, noLine }) =>
-    noLine || as !== 'a' ? 'none' : 'underline'};
+  text-decoration: ${({ as, $noLine }) =>
+    $noLine || as !== 'a' ? 'none' : 'underline'};
 `
 
 export const SuccessContainer = styled.div`

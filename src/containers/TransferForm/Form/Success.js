@@ -28,7 +28,7 @@ function Success() {
           view transaction
         </FeedbackText>
 
-        <ToWallet noLine={true} as={Link} to="/wallet" className="primary">
+        <ToWallet $noLine as={Link} to="/wallet" className="primary">
           <ArrowIcon /> To the wallet
         </ToWallet>
       </SuccessBlock>
