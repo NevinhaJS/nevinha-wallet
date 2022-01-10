@@ -1,16 +1,17 @@
 import React from 'react'
 
-function Estimation({ fee, amount }) {
+function Estimation({ fee, amount, isMainNet, symbol }) {
   return (
     <>
       <p className="primary">
         <span className="light">Estimated fee: </span>
-        {fee} ETH
+        {fee} {symbol}
       </p>
 
       <p className="primary">
         <span className="light">Total: </span>
-        {Math.abs(fee) + Math.abs(amount)} ETH
+        {isMainNet ? `${Math.abs(fee) + Math.abs(amount)}` : `${amount}`}{' '}
+        {symbol}
       </p>
     </>
   )

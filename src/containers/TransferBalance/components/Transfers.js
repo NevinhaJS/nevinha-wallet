@@ -7,6 +7,7 @@ import { WalletContext } from '../../../contexts/wallet/WalletProvider'
 
 import * as S from './styled'
 import Web3Service from '../../../services/web3'
+import { BLOCKCHAIN_EXPLORER_LINK } from '../../../services/fetcher/constants'
 
 const getInfo = (item, address) => {
   const isSender = item.from_address === address
@@ -27,7 +28,7 @@ function Transfers({ items, symbol, isMainNet }) {
   if (!items) return null
 
   const handleTransferClick = (txHash) => () => {
-    window.open('https://etherscan.io/tx/' + txHash, '_blank')
+    window.open(`${BLOCKCHAIN_EXPLORER_LINK}/tx/${txHash}`, '_blank')
   }
 
   const filteredItems = isMainNet

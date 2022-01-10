@@ -24,6 +24,8 @@ export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
 //   },
 // }
 
+// export const BLOCKCHAIN_EXPLORER_LINK = 'https://etherscan.io/'
+
 export const COVALENT_NETWORK_ID = 42 // Kovan Network
 export const NETWORK_LINK =
   'https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
@@ -48,3 +50,5 @@ export const initialCoins = {
     address: '0x7b7591f95e71a88397034cbe9da82f5f56e93fb7',
   },
 }
+
+export const BLOCKCHAIN_EXPLORER_LINK = 'https://kovan.etherscan.io/'

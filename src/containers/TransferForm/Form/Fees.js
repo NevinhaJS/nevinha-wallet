@@ -78,11 +78,16 @@ function Fees({ onSubmit }) {
 
         <p className="primary">
           <span className="light">Amount: </span>
-          {state.context.form?.INFO?.amount}
+          {state.context.form?.INFO?.amount} {symbol}
         </p>
 
         {isSubmitting && (
-          <Estimation fee={fee} amount={state.context.form?.INFO?.amount} />
+          <Estimation
+            symbol={symbol}
+            isMainNet={isMainNet}
+            fee={fee}
+            amount={state.context.form?.INFO?.amount}
+          />
         )}
       </FeesBox>
 
