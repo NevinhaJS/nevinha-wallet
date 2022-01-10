@@ -21,7 +21,6 @@ import {
   defaultNetworkAddress,
   ERC20_ABI,
 } from '../../services/tokens/contants'
-import Web3Service from '../../services/web3'
 
 const TransferLink = ({ symbol }) => {
   return (
