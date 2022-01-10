@@ -5,6 +5,7 @@ import Input from '../../components/Input'
 export const TransferFormContainer = styled.div`
   max-width: min(431px, 80vw);
   margin: 0 auto;
+  padding-bottom: 1rem;
 
   ${Box} {
     margin-bottom: 40px;
