@@ -25,7 +25,7 @@ function Success() {
           <CheckIcon />
         </CircleBox>
 
-        <FeedbackText size={30}>Transaction sent!</FeedbackText>
+        <FeedbackText size="min(23px, 7vw)">Transaction sent!</FeedbackText>
         <FeedbackText
           as="a"
           href={`${BLOCKCHAIN_EXPLORER_LINK}/tx/${transactionHash}`}

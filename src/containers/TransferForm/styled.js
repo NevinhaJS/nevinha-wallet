@@ -45,7 +45,7 @@ export const FeesBox = styled(Box)`
 `
 
 export const FeedbackText = styled.p`
-  font-size: min(${({ size }) => size || 23}px, 3vw);
+  font-size: ${({ size }) => size || 'min(23px, 5vw)'};
   text-align: center;
   margin-bottom: 12px;
   text-decoration: ${({ as, $noLine }) =>
@@ -70,12 +70,13 @@ export const SuccessBlock = styled.div`
 `
 
 export const CircleBox = styled(Box)`
-  width: min(17vw, 144px);
-  height: min(17vw, 144px);
+  width: min(30vw, 144px);
+  height: min(30vw, 144px);
   border-radius: 50%;
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: min(1rem, 7vw);
+
   background: #141414;
   justify-content: center;
 
