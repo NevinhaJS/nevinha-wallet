@@ -9,7 +9,8 @@ const binanceAPI = 'https://api.binance.com/api/v3/ticker/price?symbol='
 const loadingText = 'loading balance...'
 
 function CoinBalance({ onClick, item: { image, symbol, address, abi }, icon }) {
-  const { data, error } = useSWR(`${binanceAPI}${symbol}USDT`, fetcher, {
+  const url = `${binanceAPI}${symbol}USDT`
+  const { data, error } = useSWR(url, fetcher, {
     refreshInterval: 3000,
   })
 
