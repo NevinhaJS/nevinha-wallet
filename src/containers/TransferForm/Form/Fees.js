@@ -57,9 +57,11 @@ function Fees({ onSubmit }) {
     const signedTx = await execute(symbol, isMainNet)
 
     try {
-      await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+      const transaction = await web3.eth.sendSignedTransaction(
+        signedTx.rawTransaction
+      )
 
-      onSubmit({ fee })
+      onSubmit({ fee, transaction })
     } catch (e) {
       console.log('Deu ruim')
       console.log(e)

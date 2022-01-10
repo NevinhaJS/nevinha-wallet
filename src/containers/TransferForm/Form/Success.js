@@ -11,10 +11,12 @@ import {
 } from '../styled'
 import { MultiStepContext } from '../../../infra/MultiStepForm/MultiStepForm'
 import { Link } from 'react-router-dom'
+import { BLOCKCHAIN_EXPLORER_LINK } from '../../../services/fetcher/constants'
 
 function Success() {
   const multiStepContext = useContext(MultiStepContext)
-  const [state] = useActor(multiStepContext.authService)
+  const [{ context }] = useActor(multiStepContext.authService)
+  const { transactionHash } = context.form.FEES.transaction
 
   return (
     <SuccessContainer>
@@ -24,7 +26,12 @@ function Success() {
         </CircleBox>
 
         <FeedbackText size={30}>Transaction sent!</FeedbackText>
-        <FeedbackText as="a" href="#" className="primary">
+        <FeedbackText
+          as="a"
+          href={`${BLOCKCHAIN_EXPLORER_LINK}/tx/${transactionHash}`}
+          target="_blank"
+          className="primary"
+        >
           view transaction
         </FeedbackText>
 
