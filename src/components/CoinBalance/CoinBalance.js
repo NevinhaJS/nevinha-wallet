@@ -13,7 +13,6 @@ function CoinBalance({ onClick, item: { image, symbol, address, abi }, icon }) {
   const { data, error } = useSWR(url, fetcher, {
     refreshInterval: 3000,
   })
-
   const [balance, loading] = useCoinBalance(address, abi)
 
   const label = loading ? loadingText : `${balance.slice(0, 10)} ${symbol}`

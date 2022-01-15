@@ -1,6 +1,8 @@
 import { SWRConfig } from 'swr'
 import Router from './Router'
 import WalletProvider from './contexts/wallet/WalletProvider'
+import NetworkProvider from './contexts/network/NetworkProvider'
+import cacheProvider from './modules/cache'
 import useWeb3Loader from './hooks/useWeb3Loader'
 import Footer from './components/Footer'
 
@@ -9,12 +11,14 @@ function App() {
   useWeb3Loader()
 
   return (
-    <SWRConfig value={{ provider: () => new Map() }}>
-      <WalletProvider>
-        <Router />
+    <SWRConfig value={{ provider: cacheProvider }}>
+      <NetworkProvider>
+        <WalletProvider>
+          <Router />
 
-        <Footer />
-      </WalletProvider>
+          <Footer />
+        </WalletProvider>
+      </NetworkProvider>
     </SWRConfig>
   )
 }
