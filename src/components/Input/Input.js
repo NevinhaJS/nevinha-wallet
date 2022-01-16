@@ -4,29 +4,25 @@ import { ErrorMessage } from '@hookform/error-message'
 import { InputComponent } from './styled'
 
 function Input({
-  id,
-  disabled,
   register,
   name,
   required,
-  className,
-  value,
   type = 'text',
   onChange,
-  placeholder,
   errors,
+  validate,
+  ...rest
 }) {
   return (
     <>
       <InputComponent
-        disabled={disabled}
-        value={value}
-        className={className}
-        id={id}
+        {...rest}
         type={type}
-        onChange={onChange}
-        placeholder={placeholder}
-        {...register(name, { required })}
+        {...register(name, {
+          required,
+          validate,
+          onChange,
+        })}
       />
       <ErrorMessage
         errors={errors}
