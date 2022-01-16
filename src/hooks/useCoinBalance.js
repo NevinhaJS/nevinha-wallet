@@ -3,11 +3,16 @@ import { useContextSelector } from 'use-context-selector'
 import { WalletContext } from '../contexts/wallet/WalletProvider'
 import Web3Service from '../services/web3'
 import usePooling from '../hooks/usePooling'
-import { defaultNetworkAddress } from '../services/tokens/contants'
+import { defaultNetworkAddress } from '../services/tokens/constants'
+import { NetworkContext } from '../contexts/network/NetworkProvider'
 
 const useCoinBalance = (address, abi) => {
   const [balance, setBalance] = useState(null)
   const wallet = useContextSelector(WalletContext, (s) => s[0])
+  const activeChain = useContextSelector(
+    NetworkContext,
+    (s) => s[0].activeChain
+  )
 
   const getDefaultNetworkBalance = useCallback(async () => {
     const web3 = Web3Service.getInstance()
@@ -33,8 +38,12 @@ const useCoinBalance = (address, abi) => {
     }
   }, [setBalance, wallet, balance, abi, address])
 
-  const { startPolling } = usePooling(getDefaultNetworkBalance, 6000)
-  const { startPolling: startTokenPolling } = usePooling(getTokenBalance, 6000)
+  const { startPolling, cancelPolling } = usePooling(
+    getDefaultNetworkBalance,
+    6000
+  )
+  const { startPolling: startTokenPolling, cancelPolling: cancelTokenPooling } =
+    usePooling(getTokenBalance, 6000)
 
   useEffect(() => {
     if (address === defaultNetworkAddress) {
@@ -43,8 +52,12 @@ const useCoinBalance = (address, abi) => {
       startTokenPolling()
     }
 
+    return () => {
+      cancelPolling()
+      cancelTokenPooling()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, abi])
+  }, [address, activeChain, abi])
 
   const isLoading = balance === null
 

@@ -5,6 +5,7 @@ import NetworkProvider from './contexts/network/NetworkProvider'
 import cacheProvider from './modules/cache'
 import useWeb3Loader from './hooks/useWeb3Loader'
 import Footer from './components/Footer'
+import TokensProvider from './contexts/tokens/TokensProvider'
 
 function App() {
   //TODO: move it to a loader component
@@ -13,11 +14,13 @@ function App() {
   return (
     <SWRConfig value={{ provider: cacheProvider }}>
       <NetworkProvider>
-        <WalletProvider>
-          <Router />
+        <TokensProvider>
+          <WalletProvider>
+            <Router />
 
-          <Footer />
-        </WalletProvider>
+            <Footer />
+          </WalletProvider>
+        </TokensProvider>
       </NetworkProvider>
     </SWRConfig>
   )

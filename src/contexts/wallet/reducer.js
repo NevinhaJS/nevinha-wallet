@@ -3,7 +3,7 @@ import {
   CREATE_ACCOUNT,
   ADD_ACCOUNT,
   CHANGE_PASSWORD,
-} from './contants'
+} from './constants'
 
 export const initialState = {
   accounts: [],

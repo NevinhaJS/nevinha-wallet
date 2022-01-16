@@ -14,6 +14,7 @@ function Input({
   type = 'text',
   onChange,
   placeholder,
+  validate,
   errors,
 }) {
   return (
@@ -24,9 +25,8 @@ function Input({
         className={className}
         id={id}
         type={type}
-        onChange={onChange}
         placeholder={placeholder}
-        {...register(name, { required })}
+        {...register(name, { required, validate, onChange })}
       />
       <ErrorMessage
         errors={errors}

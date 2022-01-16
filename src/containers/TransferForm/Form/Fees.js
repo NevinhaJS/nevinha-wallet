@@ -10,13 +10,12 @@ import Estimation from './components/Estimation'
 import FeesFields from './components/FeesFields'
 
 import { FeedbackText, FeesBox } from '../styled'
-import { initialCoins } from '../../../services/fetcher/constants'
 import { useParams } from 'react-router-dom'
-import TokensService from '../../../services/tokens'
-import { defaultNetworkAddress } from '../../../services/tokens/contants'
+import { defaultNetworkAddress } from '../../../services/tokens/constants'
 
 import useStrategies from './hooks/useStrategies'
 import { defaultTokenStrategy, erc20Strategy } from './strategies'
+import { useActiveChainTokensSelector } from '../../../contexts/tokens/selectors'
 
 function Fees({ onSubmit }) {
   const multiStepContext = useContext(MultiStepContext)
@@ -30,11 +29,12 @@ function Fees({ onSubmit }) {
   } = useForm()
   const fee = watch('fee')
   const { symbol } = useParams()
+  const tokens = useActiveChainTokensSelector()
 
-  const isMainNet = initialCoins[symbol].address === defaultNetworkAddress
+  const isMainNet = tokens[symbol].address === defaultNetworkAddress
 
   const { execute, getGasInfo } = useStrategies(
-    isMainNet ? defaultTokenStrategy : erc20Strategy(symbol)
+    isMainNet ? defaultTokenStrategy : erc20Strategy(symbol, tokens)
   )
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function Fees({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit(onSendTransaction)}>
       <FeesBox className="wallet-container">
-        <CoinBalance item={TokensService.getToken(symbol)} />
+        <CoinBalance item={tokens[symbol]} />
 
         <p className="primary">
           <span className="light">To: </span>

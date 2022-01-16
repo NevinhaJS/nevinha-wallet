@@ -14,7 +14,17 @@ const covalentLink = `https://api.covalenthq.com/v1/chains/?format=JSON&key=${CO
 function NetworkProvider({ children }) {
   const [state, dispatch] = useReducer(networkReducer, initialState)
 
-  useSWR(covalentLink, fetcher, {
+  const fetchNetwork = async (...args) => {
+    const { data, error } = await fetcher(covalentLink)
+
+    if (error) return fetchNetwork(...args)
+
+    return data?.items.filter(
+      (item) => item.chain_id === '1' || item.chain_id === '42'
+    )
+  }
+
+  useSWR(covalentLink, fetchNetwork, {
     refreshInterval: 0,
     errorRetryInterval: 1000,
     onErrorRetry: (_err, _key, _config, revalidate, retryCount) =>
@@ -22,7 +32,7 @@ function NetworkProvider({ children }) {
     onSuccess: (data) =>
       dispatch({
         type: 'SET_NETWORKS',
-        payload: formatNetworkItems(data?.data),
+        payload: formatNetworkItems(data),
       }),
   })
 

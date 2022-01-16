@@ -1,4 +1,4 @@
-import { SET_ACTIVE_CHAIN, SET_NETWORKS } from './contants'
+import { SET_ACTIVE_CHAIN, SET_NETWORKS } from './constants'
 
 export const initialState = {
   activeChain: 1,

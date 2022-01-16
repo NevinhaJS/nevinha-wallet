@@ -1,13 +1,12 @@
-import { initialCoins } from '../../../../services/fetcher/constants'
 import {
   defaultNetworkAddress,
   ERC20_ABI,
-} from '../../../../services/tokens/contants'
+} from '../../../../services/tokens/constants'
 
-export const getTokensABI = () => {
+export const getTokensABI = (tokens) => {
   try {
-    const coins = Object.keys(initialCoins).map((coinKey) => {
-      const coin = initialCoins[coinKey]
+    const coins = Object.keys(tokens).map((coinKey) => {
+      const coin = tokens[coinKey]
 
       if (coin.address === defaultNetworkAddress) {
         return coin

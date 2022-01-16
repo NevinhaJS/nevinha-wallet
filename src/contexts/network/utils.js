@@ -1,7 +1,7 @@
-export const formatNetworkItems = (data) => {
-  if (!data) return {}
+export const formatNetworkItems = (items) => {
+  if (!items || !items.length) return {}
 
-  const networks = data.items.reduce(
+  const networks = items.reduce(
     (acc, item) => ({
       ...acc,
       [item.chain_id]: item,

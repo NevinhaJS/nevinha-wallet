@@ -8,7 +8,11 @@ import * as S from './styled'
 const binanceAPI = 'https://api.binance.com/api/v3/ticker/price?symbol='
 const loadingText = 'loading balance...'
 
-function CoinBalance({ onClick, item: { image, symbol, address, abi }, icon }) {
+function CoinBalance({
+  onClick,
+  item: { logoURI, symbol, address, abi },
+  icon,
+}) {
   const url = `${binanceAPI}${symbol}USDT`
   const { data, error } = useSWR(url, fetcher, {
     refreshInterval: 3000,
@@ -23,7 +27,7 @@ function CoinBalance({ onClick, item: { image, symbol, address, abi }, icon }) {
 
   return (
     <S.CoinBalanceItem
-      image={<img src={image} alt={label} />}
+      image={<img src={logoURI} alt={label} />}
       label={label}
       description={loading ? 'loading...' : `$${usdBalance || '-'} USD`}
       icon={icon}

@@ -14,6 +14,11 @@ export const ImportTokenContainer = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
+  width: 100%;
+
+  form {
+    width: 100%;
+  }
 `
 
 export const TransferFormLabel = styled.label`

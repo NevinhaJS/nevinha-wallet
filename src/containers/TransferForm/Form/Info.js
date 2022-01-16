@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import Box from '../../../components/Box'
 import CoinBalance from '../../../components/CoinBalance'
-import TokensService from '../../../services/tokens'
+import useToken from '../../../hooks/useToken'
 
 import { TransferFormInput, TransferFormLabel } from '../styled'
 
@@ -14,11 +14,12 @@ function Info({ onSubmit }) {
     formState: { errors },
   } = useForm()
   const { symbol } = useParams()
+  const token = useToken(symbol)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box className="wallet-container">
-        <CoinBalance item={TokensService.getToken(symbol)} />
+        <CoinBalance item={token} />
       </Box>
 
       <TransferFormLabel htmlFor="address" className="light">

@@ -1,5 +1,5 @@
 import Web3Service from '../../services/web3'
-import { CREATE_WALLET, ADD_ACCOUNT, CHANGE_PASSWORD } from './contants'
+import { CREATE_WALLET, ADD_ACCOUNT, CHANGE_PASSWORD } from './constants'
 
 export const createWallet = (dispatch) => {
   const web3 = Web3Service.getInstance()

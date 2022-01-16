@@ -7,7 +7,8 @@ import { WalletContext } from '../../../contexts/wallet/WalletProvider'
 
 import * as S from './styled'
 import Web3Service from '../../../services/web3'
-import { BLOCKCHAIN_EXPLORER_LINK } from '../../../services/fetcher/constants'
+import { networksExplorer } from '../../../services/fetcher/constants'
+import { NetworkContext } from '../../../contexts/network/NetworkProvider'
 
 const getInfo = (item, address) => {
   const isSender = item.from_address === address
@@ -22,13 +23,17 @@ const getInfo = (item, address) => {
 // TODO: Add a loading state for the requests
 function Transfers({ items, symbol, isMainNet }) {
   const { accounts } = useContextSelector(WalletContext, (s) => s[0])
+  const activeChain = useContextSelector(
+    NetworkContext,
+    (s) => s[0].activeChain
+  )
   const address = accounts[0].address.toLowerCase()
   const web3 = Web3Service.getInstance()
 
   if (!items) return null
 
   const handleTransferClick = (txHash) => () => {
-    window.open(`${BLOCKCHAIN_EXPLORER_LINK}/tx/${txHash}`, '_blank')
+    window.open(`${networksExplorer[activeChain]}/tx/${txHash}`, '_blank')
   }
 
   const filteredItems = isMainNet
