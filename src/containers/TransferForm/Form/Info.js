@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import Box from '../../../components/Box'
 import CoinBalance from '../../../components/CoinBalance'
 import TokensService from '../../../services/tokens'
+import Web3Service from '../../../services/web3'
 
 import { TransferFormInput, TransferFormLabel } from '../styled'
 
@@ -15,8 +16,13 @@ function Info({ onSubmit }) {
   } = useForm()
   const { symbol } = useParams()
 
+  const web3 = Web3Service.getInstance()
+
+  const addressValidate = (value) =>
+    !web3.utils.isAddress(value) ? 'Invalid address' : true
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <Box className="wallet-container">
         <CoinBalance item={TokensService.getToken(symbol)} />
       </Box>
@@ -31,6 +37,7 @@ function Info({ onSubmit }) {
         name="address"
         required={'Address is required'}
         register={register}
+        validate={addressValidate}
         errors={errors}
       />
 
@@ -39,10 +46,12 @@ function Info({ onSubmit }) {
       </TransferFormLabel>
       <TransferFormInput
         id="amount"
-        type="text"
+        type="number"
+        min="0"
         placeholder={`0 ${symbol}`}
         name="amount"
         required={'Amount is required'}
+        autoComplete="off"
         register={register}
         errors={errors}
       />
