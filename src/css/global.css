@@ -1,4 +1,4 @@
-@import "./variables.css";
+@import './variables.css';
 
 * {
   box-sizing: border-box;
@@ -6,24 +6,35 @@
   color: var(--light);
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
 }
 
 body {
-  background: var(--dark)
+  background: var(--dark);
 }
 
-h1,h2,h3,h4 {
+h1,
+h2,
+h3,
+h4 {
   color: var(--smooth);
 }
 
-p, a, span, label, input, button {
-  color: var(--light)
+p,
+a,
+span,
+label,
+input,
+button {
+  color: var(--light);
 }
 
-button, input, select {
+button,
+input,
+select {
   appearance: none;
   background: transparent;
   color: var(--primary);
@@ -38,23 +49,36 @@ button {
   width: 100%;
 }
 
-input, select {
+input,
+select {
   border: solid 3px var(--primary-bd);
   width: 100%;
   padding: 0 min(3rem, 3vw);
   border-radius: 6px;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 .light {
-  color: var(--light)
+  color: var(--light);
 }
 
 .primary {
-  color: var(--primary)
+  color: var(--primary);
 }
 
 .error {
-  color: var(--error)
+  color: var(--error);
 }
 
 .txt-center {
