@@ -1,7 +1,4 @@
 import ethImage from '../../assets/svg/etherium-logo.svg'
-import bnbImage from '../../assets/svg/bnb.svg'
-import polygonImage from '../../assets/svg/polygon-matic-logo.svg'
-import NT from '../../assets/images/nt.png'
 
 export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
 

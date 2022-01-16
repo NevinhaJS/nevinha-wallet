@@ -2,6 +2,7 @@ import React from 'react'
 import useSWR from 'swr'
 import useCoinBalance from '../../hooks/useCoinBalance'
 import fetcher from '../../services/fetcher'
+import Avatar from '../Avatar'
 
 import * as S from './styled'
 
@@ -27,7 +28,9 @@ function CoinBalance({
 
   return (
     <S.CoinBalanceItem
-      image={<img src={logoURI} alt={label} />}
+      image={
+        logoURI ? <img src={logoURI} alt={label} /> : <Avatar text={symbol} />
+      }
       label={label}
       description={loading ? 'loading...' : `$${usdBalance || '-'} USD`}
       icon={icon}
