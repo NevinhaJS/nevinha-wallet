@@ -11,6 +11,7 @@ import RequireSignedOut from './infra/RequireSignedOut'
 import RequireAuth from './infra/RequireAuth'
 import TransferBalance from './containers/TransferBalance/TransferBalance'
 import TransferForm from './containers/TransferForm'
+import ImportToken from './containers/ImportToken'
 
 function Router() {
   return (
@@ -41,6 +42,7 @@ function Router() {
             path="/wallet/transfer/:symbol/form"
             element={<TransferForm />}
           />
+          <Route path="/wallet/import-token" element={<ImportToken />} />
         </Route>
       </Routes>
     </BrowserRouter>

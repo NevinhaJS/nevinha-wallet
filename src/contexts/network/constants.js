@@ -1,0 +1,2 @@
+export const SET_NETWORKS = 'SET_NETWORKS'
+export const SET_ACTIVE_CHAIN = 'SET_ACTIVE_CHAIN'

@@ -4,12 +4,13 @@ import { useContextSelector } from 'use-context-selector'
 import { WalletContext } from '../../../../contexts/wallet/WalletProvider'
 import { MultiStepContext } from '../../../../infra/MultiStepForm/MultiStepForm'
 import Web3Service from '../../../../services/web3'
-import { initialCoins } from '../../../../services/fetcher/constants'
+import { useActiveChainTokensSelector } from '../../../../contexts/tokens/selectors'
 
 const useStrategies = (strategy) => {
   const wallet = useContextSelector(WalletContext, (s) => s[0])
   const multiStepContext = useContext(MultiStepContext)
   const [state] = useActor(multiStepContext.authService)
+  const tokens = useActiveChainTokensSelector()
 
   const getGasInfo = useCallback(async () => {
     const web3 = Web3Service.getInstance()
@@ -43,7 +44,7 @@ const useStrategies = (strategy) => {
     const { address } = state.context.form?.INFO
     const rawTransaction = {
       ...transactionData,
-      to: isMainNet ? address : initialCoins[symbol].address,
+      to: isMainNet ? address : tokens[symbol].address,
       nonce: txCount,
       from: fromAddress,
       gasPrice,

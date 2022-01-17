@@ -10,17 +10,15 @@ import Transfers from './components/Transfers'
 import { useContextSelector } from 'use-context-selector'
 import { WalletContext } from '../../contexts/wallet/WalletProvider'
 import useSWR from 'swr'
-import {
-  COVALENT_API_KEY,
-  COVALENT_NETWORK_ID,
-  initialCoins,
-} from '../../services/fetcher/constants'
+import { COVALENT_API_KEY } from '../../services/fetcher/constants'
 import fetcher from '../../services/fetcher'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   defaultNetworkAddress,
   ERC20_ABI,
-} from '../../services/tokens/contants'
+} from '../../services/tokens/constants'
+import { useActiveChainTokensSelector } from '../../contexts/tokens/selectors'
+import { NetworkContext } from '../../contexts/network/NetworkProvider'
 
 const TransferLink = ({ symbol }) => {
   return (
@@ -31,11 +29,14 @@ const TransferLink = ({ symbol }) => {
   )
 }
 
-const getTransfersEndpoint = ({ isMainNet, accounts, symbol }) => {
+const getTransfersEndpoint = (
+  { isMainNet, accounts, symbol },
+  { tokens, activeChain }
+) => {
   if (isMainNet)
-    return `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`
+    return `https://api.covalenthq.com/v1/${activeChain}/address/${accounts[0].address}/transactions_v2/?&key=${COVALENT_API_KEY}`
 
-  return `https://api.covalenthq.com/v1/${COVALENT_NETWORK_ID}/address/${accounts[0].address}/transfers_v2/?contract-address=${initialCoins[symbol].address}&key=${COVALENT_API_KEY}`
+  return `https://api.covalenthq.com/v1/${activeChain}/address/${accounts[0].address}/transfers_v2/?contract-address=${tokens[symbol].address}&key=${COVALENT_API_KEY}`
 }
 
 // TODO: The provider of the transfers endpoint (current convalent) needs to be refactored
@@ -43,17 +44,24 @@ const getTransfersEndpoint = ({ isMainNet, accounts, symbol }) => {
 function TransferBalance() {
   const { saveSession } = useAuthentication()
   const { accounts } = useContextSelector(WalletContext, (s) => s[0])
+  const activeChain = useContextSelector(
+    NetworkContext,
+    (s) => s[0].activeChain
+  )
+  const tokens = useActiveChainTokensSelector()
   const navigate = useNavigate()
   const { symbol } = useParams()
 
-  const isMainNet = initialCoins[symbol].address === defaultNetworkAddress
+  const isMainNet = tokens[symbol].address === defaultNetworkAddress
   const item = isMainNet
-    ? initialCoins[symbol]
-    : { ...initialCoins[symbol], abi: ERC20_ABI }
+    ? tokens[symbol]
+    : { ...tokens[symbol], abi: ERC20_ABI }
 
-  //TODO: We need to change the endpoint when another networks are added
   const { data } = useSWR(
-    getTransfersEndpoint({ isMainNet, accounts, symbol }),
+    getTransfersEndpoint(
+      { isMainNet, accounts, symbol },
+      { activeChain, tokens }
+    ),
     (...args) => fetcher(...args).then(({ data }) => data)
   )
 

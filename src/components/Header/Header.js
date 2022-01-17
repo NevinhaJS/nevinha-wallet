@@ -4,8 +4,20 @@ import { ReactComponent as ArrowIcon } from '../../assets/svg/select-arrow.svg'
 import { Link } from 'react-router-dom'
 
 import * as S from './styled'
+import { useContextSelector } from 'use-context-selector'
+import { NetworkContext } from '../../contexts/network/NetworkProvider'
+import { setActiveChain } from '../../contexts/network/actions'
 
 function Header({ address }) {
+  const [{ activeChain, networks }, dispatch] = useContextSelector(
+    NetworkContext,
+    (state) => state
+  )
+
+  const handleNetowrkChange = (e) => {
+    dispatch(setActiveChain(e.target.value))
+  }
+
   return (
     <S.Header>
       <h1>
@@ -15,8 +27,12 @@ function Header({ address }) {
       </h1>
 
       <S.HeaderSelectContainer>
-        <S.HeaderSelect>
-          <option>Ethereum Network</option>
+        <S.HeaderSelect value={activeChain} onChange={handleNetowrkChange}>
+          {Object.keys(networks).map((network) => (
+            <option value={network} key={network}>
+              {networks[network].label}
+            </option>
+          ))}
         </S.HeaderSelect>
 
         <ArrowIcon />

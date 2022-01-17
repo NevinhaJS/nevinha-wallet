@@ -1,0 +1,2 @@
+export const ADD_TOKEN = 'ADD_TOKEN'
+export const SET_ONE_INCH_TOKENS = 'SET_ONE_INCH_TOKENS'

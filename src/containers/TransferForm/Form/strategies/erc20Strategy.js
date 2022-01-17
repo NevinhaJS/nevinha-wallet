@@ -1,14 +1,13 @@
-import { initialCoins } from '../../../../services/fetcher/constants'
-import { ERC20_ABI } from '../../../../services/tokens/contants'
+import { ERC20_ABI } from '../../../../services/tokens/constants'
 
 import Web3Service from '../../../../services/web3'
 
-const ERC20Strategy = (tokenSymbol) => {
+const ERC20Strategy = (tokenSymbol, tokens) => {
   const estimateGas = async (transactionForm, from) => {
     const web3 = Web3Service.getInstance()
     const contract = new web3.eth.Contract(
       ERC20_ABI,
-      initialCoins[tokenSymbol].address
+      tokens[tokenSymbol].address
     )
 
     const { amount, address } = transactionForm?.INFO
@@ -26,7 +25,7 @@ const ERC20Strategy = (tokenSymbol) => {
 
     const contract = new web3.eth.Contract(
       ERC20_ABI,
-      initialCoins[tokenSymbol].address
+      tokens[tokenSymbol].address
     )
 
     const transactionData = contract.methods
