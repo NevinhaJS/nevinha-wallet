@@ -17,10 +17,10 @@ function Info({ onSubmit }) {
   const { symbol } = useParams()
   const token = useToken(symbol)
 
-  const web3 = Web3Service.getInstance()
-
-  const addressValidate = (value) =>
-    !web3.utils.isAddress(value) ? 'Invalid address' : true
+  const addressValidate = (value) => {
+    const web3 = Web3Service.getInstance()
+    return !web3.utils.isAddress(value) ? 'Invalid address' : true
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
